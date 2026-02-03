@@ -1,29 +1,26 @@
 const http = require('http');
 
 const server = http.createServer((req, res) => {
-    // 1. 設定明確的 Origin，不要用 '*'
-    // 請將下方的網址替換成你 GitHub Pages 的實際網址
-    const origin = req.headers.origin;
-    res.setHeader('Access-Control-Allow-Origin', origin || 'https://jian-kai.github.io');
-
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    // 允許帶上憑證 (如果要解決你遇到的報錯，這行通常需要配合明確的 Origin)
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-
-    // 關鍵：LNA 必要 Header
-    res.setHeader('Access-Control-Allow-Local-Network', 'true');
-
     console.log(`📨 收到請求: ${req.method} ${req.url}`);
 
+    // 設定 CORS 標頭
+    res.setHeader('Access-Control-Allow-Origin', 'https://jian-kai.github.io');
+    res.setHeader('Access-Control-Allow-Methods', 'PUT, OPTIONS');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+    // 1. 處理預檢請求
     if (req.method === 'OPTIONS') {
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Force-Preflight'); // 這裡要對應
+        res.setHeader('Access-Control-Allow-Local-Network', 'false');
+
         res.writeHead(204);
         res.end();
         return;
     }
 
     // 2. 處理正式請求
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ message: "Hello from Local Agent!" }));
 });
