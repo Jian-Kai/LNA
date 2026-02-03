@@ -19,7 +19,10 @@
         document.getElementById('status').innerText = '請求中...';
 
         // 故意使用 IP 而非 localhost 以確保觸發邊界檢查
-        fetch(testUrl)
+        fetch(testUrl, {
+            method: 'POST',
+            credentials: 'include',
+        })
         .then(res => res.json())
         .then(data => {
             document.getElementById('status').innerText = '成功：' + data.message;

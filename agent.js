@@ -9,6 +9,8 @@ const server = http.createServer((req, res) => {
     // 關鍵：必須允許 Private Network Access
     res.setHeader('Access-Control-Allow-Local-Network', 'true');
 
+    console.log(`📨 收到請求: ${req.method} ${req.url}`);
+
     if (req.method === 'OPTIONS') {
         res.writeHead(204);
         res.end();
@@ -21,5 +23,5 @@ const server = http.createServer((req, res) => {
 });
 
 server.listen(8080, () => {
-    console.log('🚀 Agent 執行於 [http://127.0.0.1:8080](http://127.0.0.1:8080)');
+    console.log('🚀 Agent 執行於 http://127.0.0.1:8080');
 });
