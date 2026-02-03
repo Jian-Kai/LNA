@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Network Access Test</title>
+</head>
+<body>
+    <h1>Local Network Access Test</h1>
+    <input id="url" type="text" value="http://127.0.0.1:8080\">
+    <button id="testBtn">測試 LNA 請求</button>
+    <p id="status">等待操作...</p>
+</body>
+
+
+<script>
+    document.getElementById('testBtn').onclick = () => {
+        const testUrl = document.getElementById('url').value;
+        document.getElementById('status').innerText = '請求中...';
+
+        // 故意使用 IP 而非 localhost 以確保觸發邊界檢查
+        fetch(testUrl)
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('status').innerText = '成功：' + data.message;
+        })
+        .catch(err => {
+            document.getElementById('status').innerText = '失敗：' + err.message;
+            console.error(err);
+        });
+    };
+</script>
+</html>
