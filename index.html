@@ -7,22 +7,20 @@
 </head>
 <body>
     <h1>Local Network Access Test</h1>
-    <input id="url" type="text" value="http://127.0.0.1:8080\">
-    <button id="testBtn">測試 LNA 請求</button>
+    <button id="testBtn">測試 LNA 請求, http://127.0.0.1:8080</button>
     <p id="status">等待操作...</p>
 </body>
 
 
 <script>
     document.getElementById('testBtn').onclick = () => {
-        const testUrl = document.getElementById('url').value;
         document.getElementById('status').innerText = '請求中...';
 
         // 故意使用 IP 而非 localhost 以確保觸發邊界檢查
-        fetch(testUrl, {
+        fetch('http://127.0.0.1:8080', {
             method: 'PUT',
             credentials: 'include',
-            targetAddressSpace: 'local',
+            targetAddressSpace: 'loopback',
             headers: {
                 'Content-Type': 'application/json'
             },
